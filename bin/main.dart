@@ -10,12 +10,12 @@ import 'package:path/path.dart' as p;
 
 final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
-final _theMap = const {
-  const GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const [
+final _theMap = {
+  new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const [
     '3.0.0-alpha+1',
     '3.0.0-alpha'
   ],
-  const GitPkg('angular2_components',
+  new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const [
     'v0.3.1-alpha',
     'dedd4cb'
@@ -27,13 +27,6 @@ main(List<String> arguments) async {
   print(result);
 }
 
-class GitPkg {
-  final String pkgName;
-  final String gitUrl;
-
-  const GitPkg(this.pkgName, this.gitUrl);
-}
-
 class Result {
   final int size;
   final int gzipSize;
@@ -42,15 +35,6 @@ class Result {
 
   @override
   String toString() => 'Size: ${prettyInt(size)}, GZip: ${prettyInt(gzipSize)}';
-}
-
-List<Map<GitPkg, String>> _getOverrideSets() {
-  var sets = <Map<GitPkg, String>>[];
-
-  _theMap.forEach((pkg, refs) {
-
-  });
-
 }
 
 Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides) async {

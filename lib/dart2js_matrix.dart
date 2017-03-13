@@ -5,7 +5,7 @@ class GitPkg {
   GitPkg(this.pkgName, this.gitUrl);
 
   @override
-  String toString() => '$pkgName ($gitUrl)';
+  String toString() => pkgName;
 
   @override
   bool operator ==(other) =>

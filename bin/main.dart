@@ -18,13 +18,43 @@ final _theMap = {
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const [
     'v0.3.1-alpha',
-    'dedd4cb'
+    'dedd4cb',
+    '22adf24a88efc8'
   ]
 };
 
+String _quotedList(Iterable things) => things.map((i) {
+      if (i is num) {
+        return i;
+      } else {
+        return '"$i"';
+      }
+    }).join(', ');
+
 main(List<String> arguments) async {
-  var result = await _doIt(_uri, {});
-  print(result);
+  var sets = getOverrideSets(_theMap);
+
+  var pkgHeaderValues = _theMap.keys.toList();
+  var pkgHeaders = pkgHeaderValues.map((gp) => gp.pkgName).toList();
+
+  var rows = [];
+
+  var row = []..addAll(pkgHeaders)..addAll(['size', 'gzip size']);
+  rows.add(_quotedList(row));
+
+  await Future.wait(sets.map((s) async {
+    var result = await _doIt(_uri, s);
+
+    var items = []
+      ..addAll(pkgHeaderValues.map((h) => s[h]))
+      ..addAll([result.size, result.gzipSize]);
+
+    rows.add(_quotedList(items));
+  }));
+
+  for (var r in rows) {
+    print(r);
+  }
 }
 
 class Result {
@@ -44,22 +74,22 @@ Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides) async {
 
   try {
     // sync repo
-    print("syncing repo");
+    stderr.writeln("syncing repo - $overrides");
     var result = await _runProc('git', ['clone', repoUri, '.'], tempDir.path);
-    print(result.stdout);
+    //print(result.stdout);
 
     // apply dependency overrides – if desired
     await _updatePubspec(p.join(tempDir.path, 'pubspec.yaml'), overrides);
 
     // pub get
-    print("pub get");
+    stderr.writeln("pub get - $overrides");
     result = await _runProc('pub', ['get'], tempDir.path);
-    print(result.stdout);
+    //print(result.stdout);
 
     // pub build web
-    print("pub build web");
+    stderr.writeln("pub build web - $overrides");
     result = await _runProc('pub', ['build', 'web'], tempDir.path);
-    print(result.stdout);
+    //print(result.stdout);
 
     // find the output js file
     var buildDir = new Directory(p.join(tempDir.path, 'build', 'web'));
@@ -69,15 +99,15 @@ Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides) async {
         as File;
 
     // run gzip – get the gzipped size
-    print('gzipping');
+    stderr.writeln('gzipping - $overrides');
     result = await _runProc('gzip', ['-k', jsFile.path], buildDir.path);
     var gzFile = await buildDir.list().singleWhere(
         (fse) => fse is File && fse.path.endsWith('.dart.js.gz')) as File;
 
     return new Result(jsFile.statSync().size, gzFile.statSync().size);
   } finally {
-    print(tempDir.path);
-    //await tempDir.delete(recursive: true);
+    //print(tempDir.path);
+    await tempDir.delete(recursive: true);
   }
 }
 

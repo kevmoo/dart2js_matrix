@@ -6,20 +6,20 @@ import 'dart:io';
 
 import 'package:dart2js_matrix/dart2js_matrix.dart';
 import 'package:path/path.dart' as p;
-//import 'package:pool/pool.dart';
 
 final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const [
     '3.0.0-alpha+1',
-    '3.0.0-alpha'
+    '3.0.0-alpha',
+    '6c125930db1c' // march 21 AM update
   ],
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const [
     'v0.3.1-alpha',
-    'dedd4cb',
-    '22adf24a88efc8'
+    'dedd4cb', // component updates March 6
+    'daad18e7272a2' // more updates March 13
   ]
 };
 
@@ -130,9 +130,14 @@ Future _updatePubspec(String pubspecPath, Map<GitPkg, String> overrides) async {
   await pubspecFile.writeAsString(buffer.toString());
 }
 
+const _pubEnv = const <String, String>{
+  'PUB_ENVIRONMENT': 'kevmoo.dart2js_matrix'
+};
+
 Future<ProcessResult> _runProc(
     String proc, List<String> args, String workingDir) async {
-  var result = await Process.run(proc, args, workingDirectory: workingDir);
+  var result = await Process.run(proc, args,
+      workingDirectory: workingDir, environment: _pubEnv);
 
   if (result.exitCode != 0) {
     throw new ProcessException(

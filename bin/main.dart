@@ -62,10 +62,6 @@ main(List<String> arguments) async {
           var versionString = s[h];
 
           // now get the pretty name!
-          print('let us do something cool with `${h.runtimeType}`');
-          print(s[h]);
-          print(_theMap.keys.map((k) => k.runtimeType).toList());
-          print(_theMap.keys.map((pkg) => pkg.pkgName).toList());
           var pkg = _theMap[h][s[h]];
           var version = s[h];
           return "${_theMap[h][version]}_$version";

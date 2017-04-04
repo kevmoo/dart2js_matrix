@@ -15,7 +15,7 @@ final _theMap = {
     '3.0.0-alpha+1',
     '3.0.0-alpha',
     '6c125930db1c', // march 21 AM update
-    '62a6fc50a32bc', // sync1 on March 24
+    '8220ba3a693a', // sync1 on March 24
     '3.0.0-beta', // april 4 release
   ],
   new GitPkg('angular2_components',
@@ -49,8 +49,11 @@ main(List<String> arguments) async {
 
   var pool = new Pool(Platform.numberOfProcessors ~/ 2);
 
+  var count = 0;
   await Future.wait(sets.map((s) async {
     var resource = await pool.request();
+    var myCount = (++count);
+    print("** Starting $myCount");
     try {
       var result = await _doIt(_uri, s);
 
@@ -61,8 +64,9 @@ main(List<String> arguments) async {
       rows.add(_quotedList(items));
     } finally {
       resource.release();
+      print("** Finished $myCount");
     }
-  }));
+  }), eagerError: true);
 
   for (var r in rows) {
     print(r);

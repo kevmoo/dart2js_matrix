@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:dart2js_matrix/dart2js_matrix.dart';
 import 'package:path/path.dart' as p;
+import 'package:pool/pool.dart';
 
 final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
@@ -13,13 +14,17 @@ final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const [
     '3.0.0-alpha+1',
     '3.0.0-alpha',
-    '6c125930db1c' // march 21 AM update
+    '6c125930db1c', // march 21 AM update
+    '62a6fc50a32bc', // sync1 on March 24
+    '3.0.0-beta', // april 4 release
   ],
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const [
     'v0.3.1-alpha',
     'dedd4cb', // component updates March 6
-    'daad18e7272a2' // more updates March 13
+    'daad18e7272a2', // more updates March 13
+    '6cd04a4e1eb6', // march 20 sass noop
+    'v0.4.1-alpha', // april 4 release
   ]
 };
 
@@ -42,14 +47,21 @@ main(List<String> arguments) async {
   var row = []..addAll(pkgHeaders)..addAll(['size', 'gzip size']);
   rows.add(_quotedList(row));
 
+  var pool = new Pool(Platform.numberOfProcessors ~/ 2);
+
   await Future.wait(sets.map((s) async {
-    var result = await _doIt(_uri, s);
+    var resource = await pool.request();
+    try {
+      var result = await _doIt(_uri, s);
 
-    var items = []
-      ..addAll(pkgHeaderValues.map((h) => s[h]))
-      ..addAll([result.size, result.gzipSize]);
+      var items = []
+        ..addAll(pkgHeaderValues.map((h) => s[h]))
+        ..addAll([result.size, result.gzipSize]);
 
-    rows.add(_quotedList(items));
+      rows.add(_quotedList(items));
+    } finally {
+      resource.release();
+    }
   }));
 
   for (var r in rows) {
@@ -140,6 +152,7 @@ Future<ProcessResult> _runProc(
       workingDirectory: workingDir, environment: _pubEnv);
 
   if (result.exitCode != 0) {
+    print('In dir $workingDir');
     throw new ProcessException(
         proc, args, [result.stdout, result.stderr].join('\n'), result.exitCode);
   }

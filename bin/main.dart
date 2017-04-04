@@ -11,21 +11,21 @@ import 'package:pool/pool.dart';
 final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
 final _theMap = {
-  new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const [
-    '3.0.0-alpha+1',
-    '3.0.0-alpha',
-    '6c125930db1c', // march 21 AM update
-    '8220ba3a693a', // sync1 on March 24
-    '3.0.0-beta', // april 4 release
-  ],
+  new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
+    '3.0.0-alpha': '01-18', // jan 18
+    '3.0.0-alpha+1': '03-10', // march 10
+    '6c125930db1c': '03-21', // march 21 AM update
+    '8220ba3a693a': '03-24', // sync1 on March 24
+    '3.0.0-beta': '04-04' // april 4 release
+  },
   new GitPkg('angular2_components',
-      'https://github.com/dart-lang/angular2_components'): const [
-    'v0.3.1-alpha',
-    'dedd4cb', // component updates March 6
-    'daad18e7272a2', // more updates March 13
-    '6cd04a4e1eb6', // march 20 sass noop
-    'v0.4.1-alpha', // april 4 release
-  ]
+      'https://github.com/dart-lang/angular2_components'): const {
+    'v0.3.1-alpha': '01-27',
+    'dedd4cb': '03-06', // component updates March 6
+    'daad18e7272a2': '03-16', // more updates March 13
+    '6cd04a4e1eb6': '03-20', // march 20 sass noop
+    'v0.4.1-alpha': '04-04' // april 4 release
+  }
 };
 
 String _quotedList(Iterable things) => things.map((i) {
@@ -58,7 +58,18 @@ main(List<String> arguments) async {
       var result = await _doIt(_uri, s);
 
       var items = []
-        ..addAll(pkgHeaderValues.map((h) => s[h]))
+        ..addAll(pkgHeaderValues.map((h) {
+          var versionString = s[h];
+
+          // now get the pretty name!
+          print('let us do something cool with `${h.runtimeType}`');
+          print(s[h]);
+          print(_theMap.keys.map((k) => k.runtimeType).toList());
+          print(_theMap.keys.map((pkg) => pkg.pkgName).toList());
+          var pkg = _theMap[h][s[h]];
+          var version = s[h];
+          return "${_theMap[h][version]}_$version";
+        }))
         ..addAll([result.size, result.gzipSize]);
 
       rows.add(_quotedList(items));

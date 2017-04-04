@@ -15,14 +15,15 @@ class GitPkg {
   int get hashCode => pkgName.hashCode ^ 37 * gitUrl.hashCode;
 }
 
-List<Map<GitPkg, String>> getOverrideSets(Map<GitPkg, List<String>> theMap) {
+List<Map<GitPkg, String>> getOverrideSets(
+    Map<GitPkg, Map<String, String>> theMap) {
   var sets = <Map<GitPkg, String>>[];
 
   theMap.forEach((pkg, refs) {
     var newSets = <Map<GitPkg, String>>[];
 
     if (sets.isEmpty) {
-      for (var r in refs) {
+      for (var r in refs.keys) {
         newSets.add(<GitPkg, String>{pkg: r});
       }
     } else {
@@ -31,7 +32,7 @@ List<Map<GitPkg, String>> getOverrideSets(Map<GitPkg, List<String>> theMap) {
       }
 
       for (var s in sets) {
-        for (var r in refs) {
+        for (var r in refs.keys) {
           var newMap = new Map<GitPkg, String>.from(s);
           newMap[pkg] = r;
 

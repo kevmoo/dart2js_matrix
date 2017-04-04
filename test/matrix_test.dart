@@ -17,7 +17,7 @@ main() {
 
   test("one config, new values", () {
     var output = getOverrideSets({
-      _a: ['1', '2']
+      _a: {'1': 'a', '2': 'b'}
     });
 
     expect(
@@ -30,8 +30,8 @@ main() {
 
   test("two configs, one value", () {
     var output = getOverrideSets({
-      _a: ['1'],
-      _b: ['2']
+      _a: {'1': 'a'},
+      _b: {'2': 'b'}
     });
 
     expect(output, [
@@ -41,8 +41,8 @@ main() {
 
   test("two configs, two values", () {
     var output = getOverrideSets({
-      _a: ['1', '2'],
-      _b: ['3', '4']
+      _a: {'1': 'a', '2': 'b'},
+      _b: {'3': 'c', '4': 'd'}
     });
 
     expect(
@@ -57,8 +57,8 @@ main() {
 
   test("two configs, two values", () {
     var output = getOverrideSets({
-      _a: ['1', '2'],
-      _b: ['3', '4']
+      _a: {'1': 'a', '2': 'b'},
+      _b: {'3': 'c', '4': 'd'}
     });
 
     expect(
@@ -73,10 +73,10 @@ main() {
 
   test("complex", () {
     var output = getOverrideSets({
-      _a: ['a1', 'a2'],
-      _b: ['b1'],
-      _c: [],
-      _d: ['d1', 'd2', 'd3']
+      _a: {'a1': 'a', 'a2': 'b'},
+      _b: {'b1': 'c'},
+      _c: {},
+      _d: {'d1': 'a', 'd2': 'b', 'd3': 'c'}
     });
 
     expect(

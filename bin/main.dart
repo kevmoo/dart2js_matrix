@@ -17,7 +17,7 @@ final _theMap = {
     '6c125930db1c': '03-21', // march 21 AM update
     '8220ba3a693a': '03-24', // sync1 on March 24
     '3.0.0-beta': '04-04', // april 4 release
-    '8890092ec56': '04-13' // sync2
+    '9eb1ef80eb': '04-14' // sync3
   },
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const {

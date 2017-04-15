@@ -12,20 +12,15 @@ final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
-    '3.0.0-alpha': '01-18', // jan 18
-    '3.0.0-alpha+1': '03-10', // march 10
-    '6c125930db1c': '03-21', // march 21 AM update
-    '8220ba3a693a': '03-24', // sync1 on March 24
-    '3.0.0-beta': '04-04', // april 4 release
-    '3.0.0-beta+1': '04-14' // april 14 release
+    '3.0.0-beta+1': '04-14', // april 14 release
+    '719c573a07a': '04-15-more-final',
+    '18c7f6a49de8b': '04-15-private-dupe-map'
   },
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const {
-    'v0.3.1-alpha': '01-27',
-    //'dedd4cb': '03-06', // component updates March 6
-    //'daad18e7272a2': '03-16', // more updates March 13
-    //'6cd04a4e1eb6': '03-20', // march 20 sass noop
-    'v0.4.1-alpha': '04-04' // april 4 release
+    'v0.4.1-alpha': '04-04', // april 4 release
+    '15de670dec3f': '04-15-explicit-type',
+    'c5973289279': '04-15-remove-thing'
   }
 };
 

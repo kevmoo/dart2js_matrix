@@ -8,7 +8,7 @@ import 'package:dart2js_matrix/dart2js_matrix.dart';
 import 'package:path/path.dart' as p;
 import 'package:pool/pool.dart';
 
-final _uri = 'https://github.com/kevmoo/gwt_mail_sample';
+final _uri = 'https://github.com/dart-lang/angular2_components_example';
 
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
@@ -51,7 +51,7 @@ main(List<String> arguments) async {
     var myCount = (++count);
     print("** Starting $myCount");
     try {
-      var result = await _doIt(_uri, s, ref: 'origin/latest');
+      var result = await _doIt(_uri, s);
 
       var items = []
         ..addAll(pkgHeaderValues.map((h) {

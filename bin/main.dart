@@ -17,14 +17,14 @@ final _theMap = {
     '6c125930db1c': '03-21', // march 21 AM update
     '8220ba3a693a': '03-24', // sync1 on March 24
     '3.0.0-beta': '04-04', // april 4 release
-    '9eb1ef80eb': '04-14' // sync3
+    '3.0.0-beta+1': '04-14' // april 14 release
   },
   new GitPkg('angular2_components',
       'https://github.com/dart-lang/angular2_components'): const {
     'v0.3.1-alpha': '01-27',
-    'dedd4cb': '03-06', // component updates March 6
-    'daad18e7272a2': '03-16', // more updates March 13
-    '6cd04a4e1eb6': '03-20', // march 20 sass noop
+    //'dedd4cb': '03-06', // component updates March 6
+    //'daad18e7272a2': '03-16', // more updates March 13
+    //'6cd04a4e1eb6': '03-20', // march 20 sass noop
     'v0.4.1-alpha': '04-04' // april 4 release
   }
 };

@@ -8,7 +8,7 @@ import 'package:dart2js_matrix/dart2js_matrix.dart';
 import 'package:path/path.dart' as p;
 import 'package:pool/pool.dart';
 
-final _uri = 'https://github.com/isoos/gwt_mail_sample';
+final _uri = 'https://github.com/kevmoo/gwt_mail_sample';
 
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
@@ -51,7 +51,7 @@ main(List<String> arguments) async {
     var myCount = (++count);
     print("** Starting $myCount");
     try {
-      var result = await _doIt(_uri, s);
+      var result = await _doIt(_uri, s, ref: 'origin/latest');
 
       var items = []
         ..addAll(pkgHeaderValues.map((h) {
@@ -86,7 +86,8 @@ class Result {
   String toString() => 'Size: ${prettyInt(size)}, GZip: ${prettyInt(gzipSize)}';
 }
 
-Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides) async {
+Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides,
+    {String ref}) async {
   // temp dir
   var tempDir = await Directory.systemTemp.createTemp(
       'dart2js_matrix.${new DateTime.now().millisecondsSinceEpoch}.');
@@ -96,6 +97,11 @@ Future<Result> _doIt(String repoUri, Map<GitPkg, String> overrides) async {
     stderr.writeln("syncing repo - $overrides");
     var result = await _runProc('git', ['clone', repoUri, '.'], tempDir.path);
     //print(result.stdout);
+
+    if (ref != null) {
+      result = await _runProc(
+          'git', ['checkout', '-b', 'working', ref], tempDir.path);
+    }
 
     // apply dependency overrides – if desired
     await _updatePubspec(p.join(tempDir.path, 'pubspec.yaml'), overrides);

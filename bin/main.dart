@@ -8,19 +8,17 @@ import 'package:dart2js_matrix/dart2js_matrix.dart';
 import 'package:path/path.dart' as p;
 import 'package:pool/pool.dart';
 
-final _uri = 'https://github.com/dart-lang/angular2_components_example';
+final _uri = 'https://github.com/isoos/gwt_mail_sample';
 
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
-    '3.0.0-beta+1': '04-14', // april 14 release
-    '719c573a07a': '04-15-more-final',
-    '18c7f6a49de8b': '04-15-private-dupe-map'
+    '267b908': '04-25.v3_gold', // april 14 release
+    '7a8216339': '04-30.no_testability'
   },
-  new GitPkg('angular2_components',
-      'https://github.com/dart-lang/angular2_components'): const {
-    'v0.4.1-alpha': '04-04', // april 4 release
-    '15de670dec3f': '04-15-explicit-type',
-    'c5973289279': '04-15-remove-thing'
+  new GitPkg('angular_components',
+      'https://github.com/dart-lang/angular_components'): const {
+    'bf8004c': '04-27.v5gold',
+    'f2c9071b9': '04-30.no_testability'
   }
 };
 

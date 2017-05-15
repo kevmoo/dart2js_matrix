@@ -13,12 +13,14 @@ final _uri = 'https://github.com/isoos/gwt_mail_sample';
 final _theMap = {
   new GitPkg('angular2', 'https://github.com/dart-lang/angular2'): const {
     '267b908': '04-25.v3_gold', // april 14 release
-    '7a8216339': '04-30.no_testability'
+    //'7a8216339': '04-30.no_testability'
+    'dda68d5': '05-15.v3.1_pre'
   },
   new GitPkg('angular_components',
       'https://github.com/dart-lang/angular_components'): const {
     'bf8004c': '04-27.v5gold',
-    'f2c9071b9': '04-30.no_testability'
+    //'f2c9071b9': '04-30.no_testability',
+    '4518e63': '05-03.v5.1.comp_up'
   }
 };
 
@@ -147,7 +149,7 @@ Future _updatePubspec(String pubspecPath, Map<GitPkg, String> overrides) async {
     buffer.writeln('''  ${pkg.pkgName}:
     git:
       url: ${pkg.gitUrl}
-      ref: $ref''');
+      ref: "$ref"''');
   });
 
   await pubspecFile.writeAsString(buffer.toString());
